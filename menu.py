@@ -24,7 +24,7 @@ class MenuBar(Frame):
 
   def about(self):
       aboutTop=Toplevel()
-      aboutTop.title("About this application...")
+      aboutTop.title("About...")
       msg = Message(aboutTop, text="Author: \nAnthony Guillier\na2guilli@enib.fr")
       msg.pack()
       buttonOK = Button(aboutTop, text="OK", command=aboutTop.destroy)
