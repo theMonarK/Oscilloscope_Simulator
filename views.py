@@ -6,10 +6,10 @@ from generator import *
 from menu import *
 
 class View(Observer):
-    def __init__(self,parent,subject,bg="yellow"):
+    def __init__(self,parent,subject,bg="white"):
         self.subject=subject
         self.signal_id=None
-        self.menubar = MenuBar(parent)
+        self.menubar=MenuBar(parent,subject)
         self.canvas=Canvas(parent,bg=bg)
     def update(self,subject):
         print("View update")
@@ -31,15 +31,15 @@ class View(Observer):
         self.canvas.create_line(10,height/2,width,height/2,arrow="last")
         self.canvas.create_line(10,height-5,10,5,arrow="last")
         stepX=(width-10)/m*1.
-        stepY=(height+4)/n*1.
+        stepY=(height+10)/n*1.
 
-        for t in range(1,m+2):
+        for t in range(1,m+1):
             x =t*stepX
-            self.canvas.create_line(x,height,x,10)
+            self.canvas.create_line(x,height,x,20)
 
-        for t in range(1,n+2):
+        for t in range(1,n+1):
             y =t*stepY
-            self.canvas.create_line(10,y,width,y)
+            self.canvas.create_line(10,y,width-14,y)
 
     def packing(self) :
         self.menubar.pack()

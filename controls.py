@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from Tkinter import Tk,Toplevel,Scale,Frame,IntVar
+from Tkinter import Tk,Toplevel,Scale,Frame,IntVar,Label
 
 from observer import Observer
 from generator import *
@@ -17,6 +17,7 @@ class Controller(Observer):
                           showvalue=0,from_=0,to=5,
                           sliderlength=20,tickinterval=25,
                           command=self.update_amplitude)
+        self.labelAmp=Label(self.cursorFrame, text=str(self.amp),fg="blue")
         self.freq=IntVar()
         self.scale_freq=Scale(self.cursorFrame,variable=self.freq,
                           label="Frequence",
