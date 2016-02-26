@@ -6,7 +6,7 @@ from generator import *
 from menu import *
 
 class View(Observer):
-    def __init__(self,parent,subject,bg="white"):
+    def __init__(self,parent,subject,bg="yellow"):
         self.subject=subject
         self.signal_id=None
         self.menubar=MenuBar(parent,subject)
@@ -18,6 +18,7 @@ class View(Observer):
     def plot_signal(self,signal,color="red"):
         w,h=self.canvas.cget("width"),self.canvas.cget("height")
         width,height=int(w),int(h)
+        print(width,height)
         if self.signal_id!=None :
             self.canvas.delete(self.signal_id)
         if signal and len(signal)>1:
@@ -43,7 +44,7 @@ class View(Observer):
 
     def packing(self) :
         self.menubar.pack()
-        self.canvas.pack(fill="both",expand=1)
+        self.canvas.pack(expand=1, fill='both')
 
 if  __name__ == "__main__" :
     root=Tk()

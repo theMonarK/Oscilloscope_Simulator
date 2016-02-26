@@ -17,7 +17,7 @@ class Controller(Observer):
                           showvalue=0,from_=0,to=5,
                           sliderlength=20,tickinterval=25,
                           command=self.update_amplitude)
-        self.labelAmp=Label(self.cursorFrame, text=str(self.amp),fg="blue")
+        self.labelAmp=Label(self.cursorFrame, textvariable=self.amp,fg="black")
         self.freq=IntVar()
         self.scale_freq=Scale(self.cursorFrame,variable=self.freq,
                           label="Frequence",
@@ -25,6 +25,7 @@ class Controller(Observer):
                           showvalue=0,from_=0,to=5,
                           sliderlength=20,tickinterval=25,
                           command=self.update_frequency)
+        self.labelFreq=Label(self.cursorFrame, textvariable=self.freq,fg="black")
 
         self.phase=IntVar()
         self.scale_phase=Scale(self.cursorFrame,variable=self.phase,
@@ -33,6 +34,7 @@ class Controller(Observer):
                           showvalue=0,from_=-90,to=90,
                           sliderlength=20,tickinterval=25,
                           command=self.update_phase)
+        self.labelPhase=Label(self.cursorFrame, textvariable=self.phase,fg="black")
 
     def update(self,subject):
         print("Control update")
@@ -49,8 +51,11 @@ class Controller(Observer):
     def packing(self) :
         self.cursorFrame.pack(side='bottom')
         self.scale_amp.pack()
+        self.labelAmp.pack()
         self.scale_freq.pack()
+        self.labelFreq.pack()
         self.scale_phase.pack()
+        self.labelPhase.pack()
 
 if  __name__ == "__main__" :
     root=Tk()

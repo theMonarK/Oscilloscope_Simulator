@@ -23,11 +23,11 @@ class MenuBar(Frame):
     button_help.configure(menu=menu_help)
 
   def about(self):
-      aboutTop=Toplevel()
-      aboutTop.title("About...")
-      msg = Message(aboutTop, text="Author: \nAnthony Guillier\na2guilli@enib.fr")
+      self.aboutTop=Toplevel()
+      self.aboutTop.title("About...")
+      msg = Message(self.aboutTop, text="Author: \nAnthony Guillier\na2guilli@enib.fr")
       msg.pack()
-      buttonOK = Button(aboutTop, text="OK", command=aboutTop.destroy)
+      buttonOK = Button(self.aboutTop, text="OK", command=self.aboutTop.destroy)
       buttonOK.pack()
 
   def error(self):
@@ -66,7 +66,7 @@ class MenuBar(Frame):
       buttonCancel.grid(row=2,column=2)
 
   def test(self,nameEntry):
-      print(nameEntry)
+      print("enter")
 
   def saving(self,toplevel,name='save'):
       if not(os.path.exists(name)):

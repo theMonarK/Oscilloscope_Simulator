@@ -20,6 +20,7 @@ class Oscilloscope(object) :
 
 if  __name__ == "__main__" :
     root=Tk()
+    root.title("Oscilloscope Simulator")
     oscillo=Oscilloscope(root)
     oscillo.packing()
     root.mainloop()
