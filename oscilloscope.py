@@ -12,7 +12,7 @@ class Oscilloscope(object) :
         self.model=Generator()
         self.view=View(parent,self.model)
         self.model.attach(self.view)
-        self.view.grid(10,10)
+        self.view.grid()
         self.controls=Controller(parent,self.model)
     def packing(self) :
         self.view.packing()

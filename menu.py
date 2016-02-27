@@ -69,12 +69,14 @@ class MenuBar(Frame):
       print("enter")
 
   def saving(self,toplevel,name='save'):
-      if not(os.path.exists(name)):
-          save=shelve.open(name)
-          save['amp']=str(self.subject.get_magnitude())
-          save['freq']=str(self.subject.get_frequency())
-          save['phase']=str(self.subject.get_phase())
-          save.close()
+      save=shelve.open(name)
+      save['amp']=str(self.subject.get_magnitude())
+      save['freq']=str(self.subject.get_frequency())
+      save['phase']=str(self.subject.get_phase())
+      save.close()
+      if toplevel is None:
+          pass
+      else:
           toplevel.destroy()
 
 
@@ -115,6 +117,7 @@ class MenuBar(Frame):
           self.subject.set_magnitude(int(save['amp']))
           self.subject.set_frequency(int(save['freq']))
           self.subject.set_phase(int(save['phase']))
+          self.subject.scale_freq.set(self.subject.get_frequency)
           save.close()
           toplevel.destroy()
       else:

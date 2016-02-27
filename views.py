@@ -6,18 +6,28 @@ from generator import *
 from menu import *
 
 class View(Observer):
-    def __init__(self,parent,subject,bg="yellow"):
+    def __init__(self,parent,subject,bg="white"):
         self.subject=subject
         self.signal_id=None
         self.menubar=MenuBar(parent,subject)
         self.canvas=Canvas(parent,bg=bg)
+        self.width = self.canvas.cget("width")
+        self.height = self.canvas.cget("height")
+        self.canvas.bind("<Configure>", self.resize)
+
     def update(self,subject):
         print("View update")
         signal=subject.get_signal()
         self.signal_id=self.plot_signal(signal)
+
+    def resize(self, event):
+        if event:
+            self.width=event.width
+            self.height=event.height
+            self.grid()
+
     def plot_signal(self,signal,color="red"):
-        w,h=self.canvas.cget("width"),self.canvas.cget("height")
-        width,height=int(w),int(h)
+        width,height=int(self.width),int(self.height)
         print(width,height)
         if self.signal_id!=None :
             self.canvas.delete(self.signal_id)
@@ -26,9 +36,11 @@ class View(Observer):
             self.signal_id=self.canvas.create_line(plot,fill=color,smooth=1,width=3)
         return self.signal_id
 
-    def grid(self, n, m):
-        w,h=self.canvas.cget("width"),self.canvas.cget("height")
+    def grid(self, n=10, m=10):
+        self.canvas.delete("all")
+        w,h=self.width,self.height
         width,height=int(w),int(h)
+        print(w,h)
         self.canvas.create_line(10,height/2,width,height/2,arrow="last")
         self.canvas.create_line(10,height-5,10,5,arrow="last")
         stepX=(width-10)/m*1.
@@ -50,6 +62,6 @@ if  __name__ == "__main__" :
     root=Tk()
     model=Generator()
     view=View(root,model)
-    view.grid(10,10)
+    view.grid()
     view.packing()
     root.mainloop()
