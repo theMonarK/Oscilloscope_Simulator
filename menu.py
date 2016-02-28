@@ -1,6 +1,7 @@
 from Tkinter import *
 import shelve
 import os.path
+import re,  tkFileDialog, tkMessageBox
 
 class MenuBar(Frame):
   def __init__(self,parent,subject):
@@ -23,12 +24,8 @@ class MenuBar(Frame):
     button_help.configure(menu=menu_help)
 
   def about(self):
-      self.aboutTop=Toplevel()
-      self.aboutTop.title("About...")
-      msg = Message(self.aboutTop, text="Author: \nAnthony Guillier\na2guilli@enib.fr")
-      msg.pack()
-      buttonOK = Button(self.aboutTop, text="OK", command=self.aboutTop.destroy)
-      buttonOK.pack()
+      tkMessageBox.showinfo('Oscilloscope Simulator',
+                                 '\tAnthony Guillier\n a2guilli@enib.fr')
 
   def error(self):
       errorTop=Toplevel()
@@ -117,7 +114,6 @@ class MenuBar(Frame):
           self.subject.set_magnitude(int(save['amp']))
           self.subject.set_frequency(int(save['freq']))
           self.subject.set_phase(int(save['phase']))
-          self.subject.scale_freq.set(self.subject.get_frequency)
           save.close()
           toplevel.destroy()
       else:

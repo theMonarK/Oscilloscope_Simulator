@@ -25,10 +25,10 @@ class View(Observer):
             self.width=event.width
             self.height=event.height
             self.grid()
+            self.update(self.subject)
 
     def plot_signal(self,signal,color="red"):
         width,height=int(self.width),int(self.height)
-        print(width,height)
         if self.signal_id!=None :
             self.canvas.delete(self.signal_id)
         if signal and len(signal)>1:
@@ -41,8 +41,8 @@ class View(Observer):
         w,h=self.width,self.height
         width,height=int(w),int(h)
         print(w,h)
-        self.canvas.create_line(10,height/2,width,height/2,arrow="last")
-        self.canvas.create_line(10,height-5,10,5,arrow="last")
+        self.canvas.create_line(n,height/2,width,height/2,arrow="last")
+        self.canvas.create_line(m,height,m,5,arrow="last")
         stepX=(width-10)/m*1.
         stepY=(height+10)/n*1.
 
