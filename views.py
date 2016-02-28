@@ -28,11 +28,11 @@ class View(Observer):
             self.update(self.subject)
 
     def plot_signal(self,signal,color="red"):
-        width,height=int(self.width),int(self.height)
+        width,height=int(self.width-12),int(self.height)
         if self.signal_id!=None :
             self.canvas.delete(self.signal_id)
         if signal and len(signal)>1:
-            plot=[(x*width, height/2.0*(y+1)) for (x, y) in signal]
+            plot=[(x*width+10, height/2.0*(y+1)) for (x, y) in signal]
             self.signal_id=self.canvas.create_line(plot,fill=color,smooth=1,width=3)
         return self.signal_id
 

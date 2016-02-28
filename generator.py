@@ -12,7 +12,7 @@ class Generator(Subject) :
     def get_magnitude(self):
         return self.a
     def set_magnitude(self,a):
-        self.a=a
+        self.a=a/5.0
         self.generate_signal()
     def get_frequency(self):
         return self.f
