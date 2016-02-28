@@ -11,8 +11,8 @@ class View(Observer):
         self.signal_id=None
         self.menubar=MenuBar(parent,subject)
         self.canvas=Canvas(parent,bg=bg)
-        self.width = self.canvas.cget("width")
-        self.height = self.canvas.cget("height")
+        self.width = int(self.canvas.cget("width"))
+        self.height = int(self.canvas.cget("height"))
         self.canvas.bind("<Configure>", self.resize)
 
     def update(self,subject):
@@ -43,8 +43,8 @@ class View(Observer):
         print(w,h)
         self.canvas.create_line(n,height/2,width,height/2,arrow="last")
         self.canvas.create_line(m,height,m,5,arrow="last")
-        stepX=(width-10)/m*1.
-        stepY=(height+10)/n*1.
+        stepX=(width)/m*1.
+        stepY=(height)/n*1.
 
         for t in range(1,m+1):
             x =t*stepX
@@ -52,7 +52,7 @@ class View(Observer):
 
         for t in range(1,n+1):
             y =t*stepY
-            self.canvas.create_line(10,y,width-14,y)
+            self.canvas.create_line(10,y,width-10,y)
 
     def packing(self) :
         self.menubar.pack()
