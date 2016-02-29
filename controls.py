@@ -8,7 +8,7 @@ class Controller(Observer):
     def __init__(self,parent,subject):
 
         self.cursorFrame = Frame(parent)
-        self.selectionFrame = Frame(parent)
+        self.selectionFrame = Frame(self.cursorFrame)
         self.subject=subject
         self.amp=IntVar()
         self.scale_amp=Scale(self.cursorFrame,variable=self.amp,
@@ -39,6 +39,8 @@ class Controller(Observer):
         self.voltVar = DoubleVar()
         self.voltVar.set(1)
         self.isOffsetVar= IntVar()
+        self.isXvar= IntVar()
+        self.isYvar= IntVar()
 
         self.button1 = Radiobutton(self.selectionFrame, text="1V", variable=self.voltVar,
                                     value=1.0*5.0)
@@ -62,6 +64,13 @@ class Controller(Observer):
         self.update_frequency(event)
         self.update_phase(event)
 
+    def toggleSignal(self,event,isSelected=1):
+        if isSelected:
+            self.subject.set_magnitude(1)
+            self.update(event)
+        else:
+            self.subject.set_magnitude(self.amp.get()/self.voltVar.get())
+
 
     def update_amplitude(self,event):
         print("update_amplitude(self,event)",self.amp.get())
@@ -76,16 +85,16 @@ class Controller(Observer):
         print("update_offset(self,event)",self.offset.get())
         self.subject.set_offset(self.offset.get()*self.isOffsetVar.get()/(self.voltVar.get()))
     def packing(self) :
-        self.cursorFrame.pack(side='bottom')
-        self.scale_amp.pack()
-        self.scale_freq.pack()
-        self.scale_offset.pack()
-        self.scale_phase.pack()
         self.selectionFrame.pack(side='top')
         self.button1.pack(side='left')
         self.button2.pack(side='left')
         self.button5.pack(side='left')
         self.isOffset.pack(side='left')
+        self.cursorFrame.pack(side='left')
+        self.scale_amp.pack()
+        self.scale_freq.pack()
+        self.scale_offset.pack()
+        self.scale_phase.pack()
 
 if  __name__ == "__main__" :
     root=Tk()
