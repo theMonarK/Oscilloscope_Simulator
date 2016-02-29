@@ -45,6 +45,7 @@ class MenuBar(Frame):
       self.save['amp']=str(self.subject.get_magnitude())
       self.save['freq']=str(self.subject.get_frequency())
       self.save['phase']=str(self.subject.get_phase())
+      self.save['offset']=str(self.subject.get_offset())
       self.save.close()
 
 
@@ -62,7 +63,8 @@ class MenuBar(Frame):
 
   def setParam(self,name='save'):
       self.save=shelve.open(name)
-      self.subject.set_magnitude(int(self.save['amp']))
-      self.subject.set_frequency(int(self.save['freq']))
-      self.subject.set_phase(int(self.save['phase']))
+      self.subject.set_magnitude(float(self.save['amp']))
+      self.subject.set_offset(float(self.save['offset']))
+      self.subject.set_frequency(float(self.save['freq']))
+      self.subject.set_phase(float(self.save['phase']))
       self.save.close()

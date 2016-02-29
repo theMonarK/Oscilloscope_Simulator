@@ -40,7 +40,6 @@ class View(Observer):
         self.canvas.delete("all")
         w,h=self.width,self.height
         width,height=int(w),int(h)
-        print(w,h)
         self.canvas.create_line(n,height/2,width,height/2,arrow="last")
         self.canvas.create_line(m,height,m,5,arrow="last")
         stepX=(width)/m*1.
