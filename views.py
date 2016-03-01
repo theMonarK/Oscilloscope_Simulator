@@ -10,7 +10,8 @@ class View(Observer):
         self.subject=subject
         self.signalX_id=None
         self.signalY_id=None
-        self.menubar=MenuBar(parent,subject)
+        self.menuFrame=Frame(parent)
+        self.menubar=MenuBar(parent,self.menuFrame,subject)
         self.canvas=Canvas(parent,bg=bg)
         self.width = int(self.canvas.cget("width"))
         self.height = int(self.canvas.cget("height"))
@@ -34,7 +35,7 @@ class View(Observer):
             self.canvas.delete(self.signalX_id)
         if signal and len(signal)>1:
             plot=[(x*width+10, height/2.0*(y+1)) for (x, y) in signal]
-            self.signalX_id=self.canvas.create_line(plot,fill=color,smooth=1,width=3)
+            self.signalX_id=self.canvas.create_line(plot,fill=color,smooth=1,width=2)
         return self.signalX_id
 
     def grid(self, n=10, m=10):
@@ -55,8 +56,9 @@ class View(Observer):
             self.canvas.create_line(10,y,width-10,y)
 
     def packing(self) :
+        self.menuFrame.pack(fill='x',side='top')
         self.menubar.pack()
-        self.canvas.pack(expand=1, fill='both')
+        self.canvas.pack(expand=1, fill='both',side='top')
 
 if  __name__ == "__main__" :
     root=Tk()

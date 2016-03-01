@@ -2,10 +2,10 @@ from math import sin,pi
 from observer import Subject
 
 class Generator(Subject) :
-    def __init__(self,a=1.0,f=1.0,p=0.0,o=0.0,color='red'):
+    def __init__(self,a=1.0,f=1.0,p=0.0,o=0.0,ts=1,fs=10,color='red'):
         Subject.__init__(self)
         self.signal=[]
-        self.a,self.f,self.p,self.o=a,f,p,o
+        self.a,self.f,self.p,self.o,self.ts,self.fs=a,f,p,o,ts,fs
         self.color=color
         self.generate_signal()
     def get_signal(self):
@@ -35,13 +35,23 @@ class Generator(Subject) :
     def set_offset(self,o):
         self.o=o
         self.generate_signal()
+    def get_timeScale(self):
+        return self.ts
+    def set_timeScale(self,ts):
+        self.ts=ts
+        self.generate_signal()
+    def get_freqScale(self):
+        return self.ts
+    def set_freqScale(self,fs):
+        self.fs=fs
+        self.generate_signal()
 
     def generate_signal(self):
         del self.signal[0:]
         samples=1000
         for t in range(0, samples,5):
             samples=float(samples)
-            e=self.a*sin((2*pi*self.f*(t*1.0/samples))-self.p)-self.o
-            self.signal.append((t*1.0/samples,e))
+            e=self.a*sin((2*pi*self.f*((t*1.0)/samples))-self.p)-self.o
+            self.signal.append(((t*1.0)/samples,e))
         self.notify()
         return self.signal

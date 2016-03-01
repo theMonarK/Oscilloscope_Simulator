@@ -13,7 +13,7 @@ class Oscilloscope(object) :
         self.modelY=Generator(color='blue')
         self.view=View(parent,self.model)
         self.model.attach(self.view)
-        self.modelY.attach(self.viewY)
+        self.modelY.attach(self.view)
         self.controls=Controller(parent,self.model)
         self.controlsY=Controller(parent,self.modelY)
     def packing(self) :
