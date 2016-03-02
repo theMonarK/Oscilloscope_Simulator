@@ -40,8 +40,6 @@ class Controller(Observer):
         self.voltVar = DoubleVar()
         self.voltVar.set(1)
         self.isOffsetVar= IntVar()
-        self.hzVar= IntVar()
-        self.secVar= DoubleVar()
         self.isXvar= IntVar()
         self.isYvar= IntVar()
         self.xyVar= StringVar()
@@ -76,19 +74,10 @@ class Controller(Observer):
         self.isOffset.bind('<Motion>',self.update)
 
     def update(self,event):
-        print(self.xyVar.get())
         self.update_amplitude(event)
         self.update_offset(event)
         self.update_frequency(event)
         self.update_phase(event)
-
-    def toggleSignal(self,event,isSelected=1):
-        if isSelected:
-            self.subject.set_magnitude(1)
-            self.update(event)
-        else:
-            self.subject.set_magnitude(self.amp.get()/self.voltVar.get())
-
 
     def update_amplitude(self,event):
         print("update_amplitude(self,event)",self.amp.get())
@@ -99,12 +88,13 @@ class Controller(Observer):
     def update_phase(self,event):
         print("update_phase(self,event)",self.phase.get())
         self.subject.set_phase(self.phase.get())
-    def update_XY(self,event):
-        print("update_XY(self,event)",self.phase.get())
-        self.subject.set_phase(self.phase.get())
     def update_offset(self,event):
-        print("update_offset(self,event)",self.offset.get())
-        self.xy=self.xyVar.get()
+        if self.isOffsetVar.get():
+            print(self.isOffsetVar.get())
+            print("update_offset(self,event)",self.isOffsetVar.get())
+            self.subject.set_offset(self.offset.get()/self.voltVar.get())
+        else:
+            self.subject.set_offset(0.0)
 
     def packing(self) :
         self.xyFrame.pack(side='top')

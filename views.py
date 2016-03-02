@@ -8,10 +8,7 @@ from menu import *
 class View(Observer):
     def __init__(self,parent,subject,bg="white"):
         self.subject=subject
-        self.signalX_id=None
-        self.signalY_id=None
-        self.menuFrame=Frame(parent)
-        self.menubar=MenuBar(parent,self.menuFrame,subject)
+        self.signal_id=None
         self.canvas=Canvas(parent,bg=bg)
         self.width = int(self.canvas.cget("width"))
         self.height = int(self.canvas.cget("height"))
@@ -19,8 +16,8 @@ class View(Observer):
 
     def update(self,subject):
         print("View update")
-        signalX=subject.get_signal()
-        self.signalX_id=self.plot_signal(signalX,self.subject.get_color())
+        signal=subject.get_signal()
+        self.signal_id=self.plot_signal(signal,self.subject.get_color())
 
     def resize(self, event):
         if event:
@@ -31,12 +28,12 @@ class View(Observer):
 
     def plot_signal(self,signal,color='red'):
         width,height=int(self.width-12),int(self.height)
-        if self.signalX_id!=None :
-            self.canvas.delete(self.signalX_id)
+        if self.signal_id!=None :
+            self.canvas.delete(self.signal_id)
         if signal and len(signal)>1:
             plot=[(x*width+10, height/2.0*(y+1)) for (x, y) in signal]
-            self.signalX_id=self.canvas.create_line(plot,fill=color,smooth=1,width=2)
-        return self.signalX_id
+            self.signal_id=self.canvas.create_line(plot,fill=color,smooth=1,width=2)
+        return self.signal_id
 
     def grid(self, n=10, m=10):
         self.canvas.delete("all")
@@ -56,8 +53,6 @@ class View(Observer):
             self.canvas.create_line(10,y,width-10,y)
 
     def packing(self) :
-        self.menuFrame.pack(fill='x',side='top')
-        self.menubar.pack()
         self.canvas.pack(expand=1, fill='both',side='top')
 
 if  __name__ == "__main__" :
