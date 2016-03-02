@@ -10,18 +10,20 @@ from controls import *
 
 class Oscilloscope(object) :
     def __init__(self,parent):
-        self.model=Generator()
+        self.model=GeneratorXY()
         self.view=View(parent,self.model)
         self.menuFrame=Frame(parent)
         self.model.attach(self.view)
-        self.controls=Controller(parent,self.model)
-        self.menubar=MenuBar(parent,self.menuFrame,self.model,self.controls)
+        self.controlY=Controller(parent,self.view,self.model.getSignalY())
+        self.controlX=Controller(parent,self.view,self.model.getSignalX())
+        self.menubar=MenuBar(parent,self.menuFrame,self.model,self.controlY)
 
     def packing(self) :
         self.menuFrame.pack(fill='x',side='top')
         self.menubar.pack()
         self.view.packing()
-        self.controls.packing()
+        self.controlX.packing()
+        self.controlY.packing()
 
 if  __name__ == "__main__" :
     root=Tk()

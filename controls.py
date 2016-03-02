@@ -5,12 +5,13 @@ from observer import Observer
 from generator import *
 
 class Controller(Observer):
-    def __init__(self,parent,subject):
+    def __init__(self,parent,view,subjectSig):
 
         self.cursorFrame = Frame(parent)
         self.selectionFrame = Frame(self.cursorFrame)
         self.xyFrame = Frame (self.cursorFrame)
-        self.subject=subject
+        self.view = view
+        self.subjectSig=subjectSig
         self.amp=IntVar()
         self.scale_amp=Scale(self.cursorFrame,variable=self.amp,
                           label="Amplitude",
@@ -37,39 +38,31 @@ class Controller(Observer):
                           sliderlength=10,tickinterval=45,
                           command=self.update)
 
+
         self.voltVar = DoubleVar()
         self.voltVar.set(1)
-        self.isOffsetVar= IntVar()
-        self.isXvar= IntVar()
-        self.isYvar= IntVar()
-        self.xyVar= StringVar()
-
-        self.button1 = Radiobutton(self.selectionFrame, text="1V", variable=self.voltVar,
-                                    value=1.0*5.0)
+        self.button1 = Radiobutton(self.selectionFrame, text="1V", variable=self.voltVar,value=1.0*5.0)
         self.button1.select()
         self.button1.bind('<Motion>',self.update)
 
-        self.button2 = Radiobutton(self.selectionFrame, text="2V", variable=self.voltVar,
-                                    value=2.0*5.0)
+        self.button2 = Radiobutton(self.selectionFrame, text="2V", variable=self.voltVar,value=2.0*5.0)
         self.button2.bind('<Motion>',self.update)
 
-        self.button5 = Radiobutton(self.selectionFrame, text="5V", variable=self.voltVar,
-                                    value=5.0*5.0)
+        self.button5 = Radiobutton(self.selectionFrame, text="5V", variable=self.voltVar,value=5.0*5.0)
         self.button5.bind('<Motion>',self.update)
 
-        self.buttonX = Radiobutton(self.xyFrame, text="X", variable=self.xyVar,
-                                    value="X")
+        self.xyVar= StringVar()
+        self.buttonX = Radiobutton(self.xyFrame, text="X", variable=self.xyVar,value="X")
         self.buttonX.select()
         self.buttonX.bind('<Motion>',self.update)
 
-        self.buttonY = Radiobutton(self.xyFrame, text="Y", variable=self.xyVar,
-                                    value="Y")
+        self.buttonY = Radiobutton(self.xyFrame, text="Y", variable=self.xyVar,value="Y")
         self.buttonY.bind('<Motion>',self.update)
 
-        self.buttonXY = Radiobutton(self.xyFrame, text="XY", variable=self.xyVar,
-                                    value="XY")
+        self.buttonXY = Radiobutton(self.xyFrame, text="XY", variable=self.xyVar,value="XY")
         self.buttonXY.bind('<Motion>',self.update)
 
+        self.isOffsetVar= IntVar()
         self.isOffset = Checkbutton(self.selectionFrame,text = "Offset", variable = self.isOffsetVar)
         self.isOffset.bind('<Motion>',self.update)
 
@@ -78,23 +71,25 @@ class Controller(Observer):
         self.update_offset(event)
         self.update_frequency(event)
         self.update_phase(event)
+        self.view.update()
+
 
     def update_amplitude(self,event):
         print("update_amplitude(self,event)",self.amp.get())
-        self.subject.set_magnitude(self.amp.get()/self.voltVar.get())
+        self.subjectSig.set_magnitude(self.amp.get()/self.voltVar.get())
     def update_frequency(self,event):
         print("update_frequency(self,event)",self.freq.get())
-        self.subject.set_frequency(self.freq.get())
+        self.subjectSig.set_frequency(self.freq.get())
     def update_phase(self,event):
         print("update_phase(self,event)",self.phase.get())
-        self.subject.set_phase(self.phase.get())
+        self.subjectSig.set_phase(self.phase.get())
     def update_offset(self,event):
         if self.isOffsetVar.get():
             print(self.isOffsetVar.get())
             print("update_offset(self,event)",self.isOffsetVar.get())
-            self.subject.set_offset(self.offset.get()/self.voltVar.get())
+            self.subjectSig.set_offset(self.offset.get()/self.voltVar.get())
         else:
-            self.subject.set_offset(0.0)
+            self.subjectSig.set_offset(0.0)
 
     def packing(self) :
         self.xyFrame.pack(side='top')
@@ -114,7 +109,7 @@ class Controller(Observer):
 
 if  __name__ == "__main__" :
     root=Tk()
-    model=Generator()
+    model=GeneratorXY()
     oscillo=Controller(root,model)
     oscillo.packing()
     root.mainloop()
