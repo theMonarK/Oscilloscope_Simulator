@@ -10,9 +10,21 @@ class View(Observer):
         self.subjects=subjects
         self.signals_id={"X":None,"Y":None}
         self.canvas=Canvas(parent,bg=bg)
+        self.xyFrame = Frame (parent)
         self.width = int(self.canvas.cget("width"))
         self.height = int(self.canvas.cget("height"))
-        self.update()
+
+        self.xyVar= StringVar()
+        self.buttonX = Radiobutton(self.xyFrame, text="X", variable=self.xyVar,
+                                    value="X", command=lambda:self.chooseSignal("Y"))
+        self.buttonX.select()
+
+        self.buttonY = Radiobutton(self.xyFrame, text="Y", variable=self.xyVar,
+                                value="Y", command=lambda:self.chooseSignal("X"))
+
+        self.buttonXY = Radiobutton(self.xyFrame, text="XY", variable=self.xyVar,
+                                    value="XY", command=self.update)
+
         self.canvas.bind("<Configure>", self.resize)
 
     def update(self):
@@ -39,6 +51,10 @@ class View(Observer):
             signalValue=self.canvas.create_line(plot,fill=color,smooth=1,width=2)
         return signalValue
 
+    def chooseSignal(self,choice="Y"):
+        self.update()
+        self.canvas.delete(self.signals_id[choice])
+
     def grid(self, n=10, m=10):
         self.canvas.delete("all")
         w,h=self.width,self.height
@@ -57,6 +73,10 @@ class View(Observer):
             self.canvas.create_line(10,y,width-10,y)
 
     def packing(self) :
+        self.xyFrame.pack(side='top')
+        self.buttonX.pack(side='left')
+        self.buttonY.pack(side='left')
+        self.buttonXY.pack(side='left')
         self.canvas.pack(expand=1, fill='both',side='top')
 
 if  __name__ == "__main__" :

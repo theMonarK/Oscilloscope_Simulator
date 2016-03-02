@@ -9,7 +9,6 @@ class Controller(Observer):
 
         self.cursorFrame = Frame(parent)
         self.selectionFrame = Frame(self.cursorFrame)
-        self.xyFrame = Frame (self.cursorFrame)
         self.view = view
         self.subjectSig=subjectSig
         self.amp=IntVar()
@@ -41,30 +40,19 @@ class Controller(Observer):
 
         self.voltVar = DoubleVar()
         self.voltVar.set(1)
-        self.button1 = Radiobutton(self.selectionFrame, text="1V", variable=self.voltVar,value=1.0*5.0)
+        self.button1 = Radiobutton(self.selectionFrame, text="1V", variable=self.voltVar,
+                                    value=1.0*5.0,command =lambda:self.update(None))
         self.button1.select()
-        self.button1.bind('<Motion>',self.update)
 
-        self.button2 = Radiobutton(self.selectionFrame, text="2V", variable=self.voltVar,value=2.0*5.0)
-        self.button2.bind('<Motion>',self.update)
+        self.button2 = Radiobutton(self.selectionFrame, text="2V", variable=self.voltVar,
+                                    value=2.0*5.0, command =lambda:self.update(None))
 
-        self.button5 = Radiobutton(self.selectionFrame, text="5V", variable=self.voltVar,value=5.0*5.0)
-        self.button5.bind('<Motion>',self.update)
-
-        self.xyVar= StringVar()
-        self.buttonX = Radiobutton(self.xyFrame, text="X", variable=self.xyVar,value="X")
-        self.buttonX.select()
-        self.buttonX.bind('<Motion>',self.update)
-
-        self.buttonY = Radiobutton(self.xyFrame, text="Y", variable=self.xyVar,value="Y")
-        self.buttonY.bind('<Motion>',self.update)
-
-        self.buttonXY = Radiobutton(self.xyFrame, text="XY", variable=self.xyVar,value="XY")
-        self.buttonXY.bind('<Motion>',self.update)
+        self.button5 = Radiobutton(self.selectionFrame, text="5V", variable=self.voltVar,
+                                    value=5.0*5.0, command =lambda:self.update(None))
 
         self.isOffsetVar= IntVar()
-        self.isOffset = Checkbutton(self.selectionFrame,text = "Offset", variable = self.isOffsetVar)
-        self.isOffset.bind('<Motion>',self.update)
+        self.isOffset = Checkbutton(self.selectionFrame,text = "Offset",variable = self.isOffsetVar,
+                                    command =lambda:self.update(None))
 
     def update(self,event):
         self.update_amplitude(event)
@@ -92,10 +80,6 @@ class Controller(Observer):
             self.subjectSig.set_offset(0.0)
 
     def packing(self) :
-        self.xyFrame.pack(side='top')
-        self.buttonX.pack(side='left')
-        self.buttonY.pack(side='left')
-        self.buttonXY.pack(side='left')
         self.selectionFrame.pack(side='top')
         self.button1.pack(side='left')
         self.button2.pack(side='left')
