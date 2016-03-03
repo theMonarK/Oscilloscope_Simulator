@@ -3,13 +3,14 @@ from save import *
 import re,  tkFileDialog, tkMessageBox
 
 class MenuBar(Frame):
-  def __init__(self,root,parent,subject,controls):
+  def __init__(self,root,parent,subjects,controlX,controlY):
     Frame.__init__(self,borderwidth=2)
     self.root = root
     self.parent = parent
-    self.subject = subject
-    self.controls = controls
-    self.save = Save(self.root,self.subject,self.controls)
+    self.subjects = subjects
+    self.controlX = controlX
+    self.controlY = controlY
+    self.save = Save(self.root,self.subjects,self.controlX,self.controlY)
     self.button_file = Menubutton(self.parent,text="File")
     self.button_file.pack(side="left")
     self.menu_file=Menu(self.button_file)
@@ -21,7 +22,7 @@ class MenuBar(Frame):
     self.button_file.configure(menu=self.menu_file)
 
     self.button_help = Menubutton(self.parent,text="Help")
-    self.button_help.pack(side="left")
+    self.button_help.pack(side="right")
     self.menu_help=Menu(self.button_help)
     self.menu_help.add_command(label='About this application...', command=self.about)
     self.button_help.configure(menu=self.menu_help)

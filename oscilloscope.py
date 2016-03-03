@@ -16,7 +16,7 @@ class Oscilloscope(object) :
         self.model.attach(self.view)
         self.controlY=Controller(parent,self.view,self.model.getSignalY())
         self.controlX=Controller(parent,self.view,self.model.getSignalX())
-        self.menubar=MenuBar(parent,self.menuFrame,self.model,self.controlY)
+        self.menubar=MenuBar(parent,self.menuFrame,self.model,self.controlX,self.controlY)
 
     def packing(self) :
         self.menuFrame.pack(fill='x',side='top')

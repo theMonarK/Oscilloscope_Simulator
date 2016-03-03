@@ -3,10 +3,13 @@ from Tkinter import *
 import tkFileDialog, tkMessageBox, shelve
 
 class Save(object):
-    def __init__(self,parent,subject,controls):
+    def __init__(self,parent,subjects,controlX,controlY):
         self.parent = parent
-        self.subject = subject
-        self.controls = controls
+        self.subjects = subjects
+        self.signalX = self.subjects.getSignalX()
+        self.signalY = self.subjects.getSignalY()
+        self.controlX = controlX
+        self.controlY = controlY
 
     def load(self):
         self.fileName = tkFileDialog.askopenfilename(parent=self.parent,title="Open...")
@@ -17,10 +20,15 @@ class Save(object):
 
     def saving(self,name='save'):
         self.save=shelve.open(name)
-        self.save['amp']=str(self.subject.get_magnitude())
-        self.save['freq']=str(self.subject.get_frequency())
-        self.save['phase']=str(self.subject.get_phase())
-        self.save['offset']=str(self.subject.get_offset())
+        self.save['ampX']=str(self.signalX.get_magnitude())
+        self.save['freqX']=str(self.signalX.get_frequency())
+        self.save['phaseX']=str(self.signalX.get_phase())
+        self.save['offsetX']=str(self.signalX.get_offset())
+
+        self.save['ampY']=str(self.signalY.get_magnitude())
+        self.save['freqY']=str(self.signalY.get_frequency())
+        self.save['phaseY']=str(self.signalY.get_phase())
+        self.save['offsetY']=str(self.signalY.get_offset())
         self.save.close()
 
 
@@ -38,12 +46,22 @@ class Save(object):
 
     def setParam(self,name='save'):
         self.save=shelve.open(name)
-        self.subject.set_magnitude(float(self.save['amp']))
-        self.controls.scale_amp.set(float(self.save['amp']))
-        self.subject.set_offset(float(self.save['offset']))
-        self.controls.scale_offset.set(float(self.save['offset']))
-        self.subject.set_frequency(float(self.save['freq']))
-        self.controls.scale_freq.set(float(self.save['freq']))
-        self.subject.set_phase(float(self.save['phase']))
-        self.controls.scale_phase.set(float(self.save['phase']))
+        self.signalX.set_magnitude(float(self.save['ampX'])*5.0)
+        print(self.signalX.get_offset())
+        self.controlX.scale_amp.set(float(self.save['ampX'])*5.0)
+        self.signalX.set_offset(float(self.save['offsetX']))
+        self.controlX.scale_offset.set(float(self.save['offsetX'])*5.0)
+        self.signalX.set_frequency(float(self.save['freqX']))
+        self.controlX.scale_freq.set(float(self.save['freqX']))
+        self.signalX.set_phase(float(self.save['phaseX']))
+        self.controlX.scale_phase.set(float(self.save['phaseX']))
+
+        self.signalY.set_magnitude(float(self.save['ampY'])*5.0)
+        self.controlY.scale_amp.set(float(self.save['ampY'])*5.0)
+        self.signalY.set_offset(float(self.save['offsetY']))
+        self.controlY.scale_offset.set(float(self.save['offsetY'])*5.0)
+        self.signalY.set_frequency(float(self.save['freqY']))
+        self.controlY.scale_freq.set(float(self.save['freqY']))
+        self.signalY.set_phase(float(self.save['phaseY']))
+        self.controlY.scale_phase.set(float(self.save['phaseY']))
         self.save.close()
