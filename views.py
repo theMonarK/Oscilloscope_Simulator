@@ -16,14 +16,14 @@ class View(Observer):
 
         self.xyVar= StringVar()
         self.buttonX = Radiobutton(self.xyFrame, text="X", variable=self.xyVar,
-                                    value="X", command=lambda:self.chooseSignal("Y"))
-        self.buttonX.select()
+                                    value="X", command=lambda:self.deleteSignal("Y"))
 
         self.buttonY = Radiobutton(self.xyFrame, text="Y", variable=self.xyVar,
-                                value="Y", command=lambda:self.chooseSignal("X"))
+                                value="Y", command=lambda:self.deleteSignal("X"))
 
         self.buttonXY = Radiobutton(self.xyFrame, text="XY", variable=self.xyVar,
                                     value="XY", command=self.update)
+        self.buttonXY.select()
 
         self.canvas.bind("<Configure>", self.resize)
 
@@ -51,7 +51,7 @@ class View(Observer):
             signalValue=self.canvas.create_line(plot,fill=color,smooth=1,width=2)
         return signalValue
 
-    def chooseSignal(self,choice="Y"):
+    def deleteSignal(self,choice="Y"):
         self.update()
         self.canvas.delete(self.signals_id[choice])
 
@@ -61,8 +61,8 @@ class View(Observer):
         width,height=int(w),int(h)
         self.canvas.create_line(n,height/2,width,height/2,arrow="last")
         self.canvas.create_line(m,height,m,5,arrow="last")
-        stepX=(width)/m*1.
-        stepY=(height)/n*1.
+        stepX=(width)/m*1.0
+        stepY=(height)/n*1.0
 
         for t in range(1,m+1):
             x =t*stepX
