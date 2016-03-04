@@ -1,6 +1,6 @@
 from Tkinter import *
 from save import *
-import re,  tkFileDialog, tkMessageBox
+import tkFileDialog, tkMessageBox
 
 class MenuBar(Frame):
   def __init__(self,root,parent,subjects,controlX,controlY):

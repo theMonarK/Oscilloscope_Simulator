@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from Tkinter import Tk,Toplevel,Scale,Frame,IntVar,Label,Radiobutton,DoubleVar,Checkbutton,StringVar
+from Tkinter import Tk,Scale,Frame,IntVar,Radiobutton,DoubleVar,Checkbutton
 from observer import Observer
 from generator import *
 
@@ -15,26 +15,26 @@ class Controller(Observer):
         self.scale_amp=Scale(self.cursorFrame,variable=self.amp,
                           label="Amplitude",
                           orient="horizontal",length=250,from_=0,to=10,
-                          sliderlength=50,tickinterval=1,
+                          sliderlength=50,tickinterval=1,showvalue=0,
                           command=self.update)
         self.freq=IntVar()
         self.scale_freq=Scale(self.cursorFrame,variable=self.freq,
                           label="Frequence",
-                          orient="horizontal",length=250,from_=0,to=5,
-                          sliderlength=50,tickinterval=1,
+                          orient="horizontal",length=250,from_=0,to=10,
+                          sliderlength=50,tickinterval=0,showvalue=0,
                           command=self.update)
         self.offset=DoubleVar()
         self.scale_offset=Scale(self.cursorFrame,variable=self.offset,
                           label="Offset",
                           orient="horizontal",length=250,from_=-10.0,to=10.0,
-                          sliderlength=50,tickinterval=5,
+                          sliderlength=50,tickinterval=5,showvalue=0,
                           command=self.update)
 
         self.phase=IntVar()
         self.scale_phase=Scale(self.cursorFrame,variable=self.phase,
                           label="Phase",
                           orient="horizontal",length=250,from_=-90,to=90,
-                          sliderlength=10,tickinterval=45,
+                          sliderlength=10,tickinterval=45,showvalue=0,
                           command=self.update)
 
 
