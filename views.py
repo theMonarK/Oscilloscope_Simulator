@@ -41,9 +41,9 @@ class View(Observer):
             self.grid()
             self.update()
 
-    def plot_signal(self,signalValue,signalChoice="X",color='red'):
+    def plot_signal(self,signal,signalChoice="X",color='red'):
         width,height=int(self.width-12),int(self.height)
-        signal = signalValue.get_signal()
+        signal = signal.get_signal()
         if signal!=None :
             self.canvas.delete(self.signals_id[signalChoice])
         if signal and len(signal)>1:
@@ -51,9 +51,24 @@ class View(Observer):
             signalValue=self.canvas.create_line(plot,fill=color,smooth=1,width=2)
         return signalValue
 
+    def animate(self,x,y,color):
+        width,height=int(self.width-12),int(self.height)
+        plot=(x*width+10, height/2.0*(y+1))
+        signal=self.canvas.create_line(plot,fill=color,smooth=1,width=2)
+        return signal
+
     def deleteSignal(self,choice="Y"):
         self.update()
         self.canvas.delete(self.signals_id[choice])
+
+    def setColor(self,signal):
+        self.signal = signal
+        (triple, hexstr) = tkColorChooser.askcolor()
+        if hexstr:
+            if signal!="bg":
+                self.signal.set_color(hexstr)
+            self.canvas.configure(bg=hexstr)
+            self.update()
 
     def grid(self, n=10, m=10):
         self.canvas.delete("all")

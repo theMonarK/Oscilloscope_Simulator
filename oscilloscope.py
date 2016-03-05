@@ -18,12 +18,12 @@ class Oscilloscope(object) :
         self.time = Time(parent,self.model,self.view)
         self.controlY=Controller(parent,self.view,self.model.getSignalY())
         self.controlX=Controller(parent,self.view,self.model.getSignalX())
-        self.menubar=MenuBar(parent,self.menuFrame,self.model,self.controlX,self.controlY)
+        self.menubar=MenuBar(parent,self.menuFrame,self.model,self.controlX,self.controlY,self.view)
 
 
     def packing(self) :
         self.menuFrame.pack(fill='x',side='top')
-        self.menubar.pack()
+        self.menubar.packing()
         self.view.packing()
         self.time.packing()
         self.controlX.packing()
