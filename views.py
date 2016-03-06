@@ -8,7 +8,7 @@ from menu import *
 class View(Observer):
     def __init__(self,parent,subjects,bg="white"):
         self.subjects=subjects
-        self.signals_id={"X":None,"Y":None}
+        self.signals_id={"X":None,"Y":None,"XY":None}
         self.canvas=Canvas(parent,bg=bg)
         self.xyFrame = Frame (parent)
         self.width = int(self.canvas.cget("width"))
@@ -21,9 +21,9 @@ class View(Observer):
         self.buttonY = Radiobutton(self.xyFrame, text="Y", variable=self.xyVar,
                                 value="Y", command=lambda:self.deleteSignal("X"))
 
-        self.buttonXY = Radiobutton(self.xyFrame, text="XY", variable=self.xyVar,
+        self.buttonX_Y = Radiobutton(self.xyFrame, text="X-Y", variable=self.xyVar,
                                     value="XY", command=self.update)
-        self.buttonXY.select()
+        self.buttonX_Y.select()
 
         self.canvas.bind("<Configure>", self.resize)
 
@@ -41,11 +41,11 @@ class View(Observer):
             self.grid()
             self.update()
 
-    def plot_signal(self,signal,signalChoice="X",color='red'):
+    def plot_signal(self,signal,deletedSignal="X",color='red'):
         width,height=int(self.width-12),int(self.height)
         signal = signal.get_signal()
         if signal!=None :
-            self.canvas.delete(self.signals_id[signalChoice])
+            self.canvas.delete(self.signals_id[deletedSignal])
         if signal and len(signal)>1:
             plot=[(x*width+10, height/2.0*(y+1)) for (x, y) in signal]
             signalValue=self.canvas.create_line(plot,fill=color,smooth=1,width=2)
@@ -89,9 +89,9 @@ class View(Observer):
 
     def packing(self) :
         self.xyFrame.pack(side='top')
+        self.buttonX_Y.pack(side='left')
         self.buttonX.pack(side='left')
         self.buttonY.pack(side='left')
-        self.buttonXY.pack(side='left')
         self.canvas.pack(expand=1, fill='both',side='top')
 
 if  __name__ == "__main__" :

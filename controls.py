@@ -5,11 +5,13 @@ from observer import Observer
 from generator import *
 
 class Controller(Observer):
-    def __init__(self,parent,view,subjectSig):
+    def __init__(self,parent,view,lissajou,subjectSig,subjects):
 
         self.cursorFrame = Frame(parent)
         self.selectionFrame = Frame(self.cursorFrame)
         self.view = view
+        self.lissajou = lissajou
+        self.subjects = subjects
         self.subjectSig=subjectSig
         self.amp=IntVar()
         self.scale_amp=Scale(self.cursorFrame,variable=self.amp,
@@ -60,24 +62,35 @@ class Controller(Observer):
         self.update_frequency(event)
         self.update_phase(event)
         self.view.update()
+        if self.lissajou!=None:
+            self.lissajou.update()
 
 
     def update_amplitude(self,event):
         print("update_amplitude(self,event)",self.amp.get())
         self.subjectSig.set_magnitude(self.amp.get()/self.voltVar.get())
+        self.subjects.generate_signalXY()
     def update_frequency(self,event):
         print("update_frequency(self,event)",self.freq.get())
         self.subjectSig.set_frequency(self.freq.get())
+        self.subjects.generate_signalXY()
     def update_phase(self,event):
         print("update_phase(self,event)",self.phase.get())
         self.subjectSig.set_phase(self.phase.get())
+        self.subjects.generate_signalXY()
     def update_offset(self,event):
         if self.isOffsetVar.get():
             print(self.isOffsetVar.get())
             print("update_offset(self,event)",self.isOffsetVar.get())
             self.subjectSig.set_offset(self.offset.get()/self.voltVar.get())
+            self.subjects.generate_signalXY()
         else:
             self.subjectSig.set_offset(0.0)
+            self.subjects.generate_signalXY()
+
+    def setLissajou(self,lissajou):
+        self.lissajou = lissajou
+
 
     def packing(self) :
         self.selectionFrame.pack(side='top')

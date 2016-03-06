@@ -10,9 +10,24 @@ class GeneratorXY(Subject) :
         self.X.generate_signal()
         self.Y = Generator(aY,fY,pY,oY,colorY)
         self.Y.generate_signal()
+        self.XY = []
+        self.generate_signalXY()
 
     def getSignalX(self):
         return self.X
 
     def getSignalY(self):
         return self.Y
+
+    def getSignalXY(self):
+        return self.XY
+
+    def generate_signalXY(self):
+        del self.XY[0:]
+        self.sX = self.X.get_signal()
+        self.sY = self.Y.get_signal()
+        for i in range(0, len(self.sX)):
+            self.XY.append((self.sX[i][1], self.sY[i][1]))
+        self.X.notify()
+        self.Y.notify()
+        return self.XY

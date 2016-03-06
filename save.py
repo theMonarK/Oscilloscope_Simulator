@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from Tkinter import *
-import tkFileDialog, tkMessageBox, shelve
+import re, tkFileDialog, tkMessageBox, shelve
+
 
 class Save(object):
     def __init__(self,parent,subjects,controlX,controlY):
@@ -14,9 +15,6 @@ class Save(object):
     def load(self):
         self.fileName = tkFileDialog.askopenfilename(parent=self.parent,title="Open...")
         self.setParam(self.fileName)
-
-    def test(self,nameEntry):
-        print("enter")
 
     def saving(self,name='save'):
         self.save=shelve.open(name)
@@ -47,7 +45,6 @@ class Save(object):
     def setParam(self,name='save'):
         self.save=shelve.open(name)
         self.signalX.set_magnitude(float(self.save['ampX'])*5.0)
-        print(self.signalX.get_offset())
         self.controlX.scale_amp.set(float(self.save['ampX'])*5.0)
         self.signalX.set_offset(float(self.save['offsetX']))
         self.controlX.scale_offset.set(float(self.save['offsetX'])*5.0)
