@@ -65,9 +65,10 @@ class View(Observer):
         self.signal = signal
         (triple, hexstr) = tkColorChooser.askcolor()
         if hexstr:
-            if signal!="bg":
+            if signal=="bg":
+                self.canvas.configure(bg=hexstr)
+            else:
                 self.signal.set_color(hexstr)
-            self.canvas.configure(bg=hexstr)
             self.update()
 
     def grid(self, n=10, m=10):

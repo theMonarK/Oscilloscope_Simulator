@@ -21,23 +21,39 @@ class Oscilloscope(object) :
         self.lissajou = None
         self.model.attach(self.view)
         self.time = Time(self.lissajouTimaFrame,self.model,self.view)
-        self.lissajouButton = Button(self.lissajouTimaFrame, text = "Lissajou",
+        self.lissajouButton = Button(self.lissajouTimaFrame, text = "XY Curve",
                                     command=lambda:self.createLissajou(self.model))
         self.controlY=Controller(parent,self.view,None,self.model.getSignalY(),self.model)
         self.controlX=Controller(parent,self.view,None,self.model.getSignalX(),self.model)
         self.menubar=MenuBar(parent,self.menuFrame,self.model,self.controlX,self.controlY,self.view)
+        self.parent.protocol('WM_DELETE_WINDOW', lambda:self.menubar.exit())
+        self.save = self.menubar.getSave()
+        self.parent.bind('<Control-o>', lambda x:self.save.load())
+        self.parent.bind('<Control-s>', lambda x:self.save.saving())
+        self.parent.bind('<Control-q>', lambda x:self.menubar.exit())
+        self.parent.bind('<Control-Shift-KeyPress-s>', lambda x:self.menubar.exit())
+        self.parent.bind('<Control-b>', lambda x:self.view.setColor("bg"))
+        self.parent.bind('<Control-x>', lambda x:self.view.setColor(self.model.getSignalX()))
+        self.parent.bind('<Control-y>', lambda x:self.view.setColor(self.model.getSignalY()))
+        self.parent.bind('<Control-a>', lambda x:self.menubar.about())
+        self.parent.bind('<Control-l>', lambda x:self.createLissajou(self.model))
 
+
+    def test(self) :
+        save = self.menubar.getSave()
+        save.load()
 
     def createLissajou(self,model) :
         self.lissajouTopLevel = Toplevel(self.parent)
-        self.lissajouTopLevel.protocol('WM_DELETE_WINDOW', lambda:self.deleteLissajou(self))
+        self.lissajouTopLevel.protocol('WM_DELETE_WINDOW', lambda:self.deleteLissajou())
         self.lissajou = Lissajou (self.lissajouTopLevel,self.model)
         self.model.attach(self.lissajou)
         self.controlX.setLissajou(self.lissajou)
         self.controlY.setLissajou(self.lissajou)
         self.lissajou.packing()
 
-    def deleteLissajou(self,lissajou):
+
+    def deleteLissajou(self):
         self.lissajou = None
         self.controlX.setLissajou(self.lissajou)
         self.controlY.setLissajou(self.lissajou)
