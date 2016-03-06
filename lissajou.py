@@ -5,10 +5,8 @@ from observer import Observer
 
 class Lissajou(Observer):
     def __init__(self, parent,subjects,bg="white"):
-        self.parent=parent
         self.subjects=subjects
-        self.lissajouFrame = Frame (parent)
-        self.canvas=Canvas(self.lissajouFrame,bg=bg)
+        self.canvas=Canvas(parent,bg=bg)
         self.width = int(self.canvas.cget("width"))
         self.height = int(self.canvas.cget("height"))
 
@@ -26,13 +24,12 @@ class Lissajou(Observer):
             self.height=event.height
             self.grid()
             self.update()
-            self.packing()
 
     def grid(self, n=10, m=10):
         self.canvas.delete("all")
         w,h=self.width,self.height
         width,height=int(w),int(h)
-        self.canvas.create_line(n,height/2,width,height/2,arrow="last")
+        self.canvas.create_line(n,(height/2)-4,width,(height/2)-4,arrow="last")
         self.canvas.create_line(width/2,height,width/2,5,arrow="last")
         stepX=(width)/m*1.0
         stepY=(height)/n*1.0
@@ -56,7 +53,6 @@ class Lissajou(Observer):
         return signalValue
 
     def packing(self):
-        self.lissajouFrame.pack(side='top')
         self.canvas.pack(expand=1, fill='both',side='top')
 
 if __name__ == "__main__":
