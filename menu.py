@@ -12,10 +12,12 @@ class MenuBar(Frame):
     self.controlX = controlX
     self.controlY = controlY
     self.save = Save(self.root,self.subjects,self.controlX,self.controlY)
+
     self.button_file = Menubutton(self.parent,text="File",underline=0)
     self.menu_file=Menu(self.button_file)
     self.menu_file.add_command(label='Save           ctrl+s', command=self.save.saving,underline=0)
     self.menu_file.add_command(label='Save as...   ctrl+maj+s', command=self.save.savingAs,underline=0)
+    self.menu_file.add_command(label='Save as...   ctrl+d', command=self.save.savingAs,underline=0)
     self.menu_file.add_command(label='Open          ctrl+o', command=self.save.load,underline=0)
     self.menu_file.add_separator()
     self.menu_file.add_command(label ='Exit             ctrl+q', command=self.exit,underline=0)
@@ -27,6 +29,7 @@ class MenuBar(Frame):
     self.menu_edit_sub.add_command(label = 'Background    ctrl+b',command=lambda:self.view.setColor("bg"))
     self.menu_edit_sub.add_command(label = 'Signal X           ctrl+x',command=lambda:self.view.setColor(self.subjects.getSignalX()))
     self.menu_edit_sub.add_command(label = 'Signal Y           ctrl+y',command=lambda:self.view.setColor(self.subjects.getSignalY()))
+
     self.menu_edit.add_cascade(label='Color', command=self.about,menu=self.menu_edit_sub)
     self.button_edit.configure(menu=self.menu_edit,underline=0)
 

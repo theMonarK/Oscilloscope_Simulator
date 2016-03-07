@@ -67,26 +67,28 @@ class View(Observer):
         if hexstr:
             if signal=="bg":
                 self.canvas.configure(bg=hexstr)
+            if signal=="grid":
+                self.grid(color=hexstr)
             else:
                 self.signal.set_color(hexstr)
             self.update()
 
-    def grid(self, n=10, m=10):
+    def grid(self, n=10, m=10,color='black'):
         self.canvas.delete("all")
         w,h=self.width,self.height
         width,height=int(w),int(h)
-        self.canvas.create_line(n,height/2,width,height/2,arrow="last")
-        self.canvas.create_line(m,height,m,5,arrow="last")
+        self.canvas.create_line(n,height/2,width,height/2,arrow="last",fill=color)
+        self.canvas.create_line(m,height,m,5,arrow="last",fill=color)
         stepX=(width)/m*1.0
         stepY=(height)/n*1.0
 
         for t in range(1,m+1):
             x =t*stepX
-            self.canvas.create_line(x,height,x,20)
+            self.canvas.create_line(x,height,x,20,fill=color)
 
         for t in range(1,n+1):
             y =t*stepY
-            self.canvas.create_line(10,y,width-10,y)
+            self.canvas.create_line(10,y,width-10,y,fill=color)
 
     def packing(self) :
         self.xyFrame.pack(side='top')

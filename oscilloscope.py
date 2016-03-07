@@ -22,17 +22,19 @@ class Oscilloscope(object) :
         self.model.attach(self.view)
         self.time = Time(self.lissajouTimaFrame,self.model,self.view)
         self.lissajouButton = Button(self.lissajouTimaFrame, text = "XY Curve",
-                                    command=lambda:self.createLissajou(self.model))
+                                    command=lambda:self.createLissajou(self.model),pady = 18)
         self.controlY=Controller(parent,self.view,None,self.model.getSignalY(),self.model)
         self.controlX=Controller(parent,self.view,None,self.model.getSignalX(),self.model)
         self.menubar=MenuBar(parent,self.menuFrame,self.model,self.controlX,self.controlY,self.view)
+
         self.parent.protocol('WM_DELETE_WINDOW', lambda:self.menubar.exit())
         self.save = self.menubar.getSave()
         self.parent.bind('<Control-o>', lambda x:self.save.load())
         self.parent.bind('<Control-s>', lambda x:self.save.saving())
         self.parent.bind('<Control-q>', lambda x:self.menubar.exit())
-        self.parent.bind('<Control-Shift-KeyPress-s>', lambda x:self.menubar.exit())
+        self.parent.bind('<Control-d>', lambda x:self.save.savingAs())
         self.parent.bind('<Control-b>', lambda x:self.view.setColor("bg"))
+        self.parent.bind('<Control-g>', lambda x:self.view.setColor("grid"))
         self.parent.bind('<Control-x>', lambda x:self.view.setColor(self.model.getSignalX()))
         self.parent.bind('<Control-y>', lambda x:self.view.setColor(self.model.getSignalY()))
         self.parent.bind('<Control-a>', lambda x:self.menubar.about())
@@ -44,13 +46,16 @@ class Oscilloscope(object) :
         save.load()
 
     def createLissajou(self,model) :
-        self.lissajouTopLevel = Toplevel(self.parent)
-        self.lissajouTopLevel.protocol('WM_DELETE_WINDOW', lambda:self.deleteLissajou())
-        self.lissajou = Lissajou (self.lissajouTopLevel,self.model)
-        self.model.attach(self.lissajou)
-        self.controlX.setLissajou(self.lissajou)
-        self.controlY.setLissajou(self.lissajou)
-        self.lissajou.packing()
+        if self.lissajou == None:
+            self.lissajouTopLevel = Toplevel(self.parent)
+            self.lissajouTopLevel.protocol('WM_DELETE_WINDOW', lambda:self.deleteLissajou())
+            self.lissajouTopLevel.wm_attributes("-topmost", True)
+            self.lissajouTopLevel.title("XY Curve")
+            self.lissajou = Lissajou (self.lissajouTopLevel,self.model)
+            self.model.attach(self.lissajou)
+            self.controlX.setLissajou(self.lissajou)
+            self.controlY.setLissajou(self.lissajou)
+            self.lissajou.packing()
 
 
     def deleteLissajou(self):

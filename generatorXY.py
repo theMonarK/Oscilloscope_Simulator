@@ -11,7 +11,7 @@ class GeneratorXY(Subject) :
         self.Y = Generator(aY,fY,pY,oY,colorY)
         self.Y.generate_signal()
         self.XY = []
-        self.generate_signalXY()
+        self.generate_XYCurve()
 
     def getSignalX(self):
         return self.X
@@ -22,7 +22,7 @@ class GeneratorXY(Subject) :
     def getSignalXY(self):
         return self.XY
 
-    def generate_signalXY(self):
+    def generate_XYCurve(self):
         del self.XY[0:]
         self.sX = self.X.get_signal()
         self.sY = self.Y.get_signal()
