@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from Tkinter import *
 from save import *
 import tkFileDialog, tkMessageBox, tkColorChooser
@@ -16,7 +17,6 @@ class MenuBar(Frame):
     self.button_file = Menubutton(self.parent,text="File",underline=0)
     self.menu_file=Menu(self.button_file)
     self.menu_file.add_command(label='Save           ctrl+s', command=self.save.saving,underline=0)
-    self.menu_file.add_command(label='Save as...   ctrl+maj+s', command=self.save.savingAs,underline=0)
     self.menu_file.add_command(label='Save as...   ctrl+d', command=self.save.savingAs,underline=0)
     self.menu_file.add_command(label='Open          ctrl+o', command=self.save.load,underline=0)
     self.menu_file.add_separator()
@@ -27,6 +27,7 @@ class MenuBar(Frame):
     self.menu_edit=Menu(self.button_edit)
     self.menu_edit_sub=Menu(self.button_edit)
     self.menu_edit_sub.add_command(label = 'Background    ctrl+b',command=lambda:self.view.setColor("bg"))
+    self.menu_edit_sub.add_command(label = 'Grid                 ctrl+g',command=lambda:self.view.setColor("grid"))
     self.menu_edit_sub.add_command(label = 'Signal X           ctrl+x',command=lambda:self.view.setColor(self.subjects.getSignalX()))
     self.menu_edit_sub.add_command(label = 'Signal Y           ctrl+y',command=lambda:self.view.setColor(self.subjects.getSignalY()))
 
@@ -39,7 +40,7 @@ class MenuBar(Frame):
     self.button_help.configure(menu=self.menu_help,underline=0)
 
   def about(self):
-      tkMessageBox.showinfo('Oscilloscope Simulator','\tAnthony Guillier\n\ta2guilli@enib.fr')
+      tkMessageBox.showinfo('Oscilloscope Simulator','\tOscilloscope Simulator\n\tVersion 1.0\n\n\tAnthony Guillier\n\ta2guilli@enib.fr\n\n\t© 2015-2016 ENIB')
 
   def exit(self):
       self.MsgBox= tkMessageBox.askquestion(title="Quit",message="Save?",type='yesnocancel')
