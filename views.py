@@ -7,6 +7,8 @@ from menu import *
 
 class View(Observer):
     def __init__(self,parent,subjects,bg="white"):
+        self.signalPos = 0
+        self.anim=1
         self.subjects=subjects
         self.signals_id={"X":None,"Y":None,"XY":None}
         self.canvas=Canvas(parent,bg=bg)
@@ -31,8 +33,8 @@ class View(Observer):
         print("View update")
         signalX = self.subjects.getSignalX()
         signalY = self.subjects.getSignalY()
-        self.signals_id["X"] = self.plot_signal(signalX,"X",signalX.get_color())
-        self.signals_id["Y"] = self.plot_signal(signalY,"Y",signalY.get_color())
+        self.signals_id["X"] = self.plot_signal(signal=signalX,deletedSignal="X",color=signalX.get_color())
+        self.signals_id["Y"] = self.plot_signal(signal=signalY,deletedSignal="Y",color=signalY.get_color())
 
     def resize(self, event):
         if event:
@@ -51,11 +53,26 @@ class View(Observer):
             signalValue=self.canvas.create_line(plot,fill=color,smooth=1,width=2)
         return signalValue
 
-    def animate(self,x,y,color):
-        width,height=int(self.width-12),int(self.height)
-        plot=(x*width+10, height/2.0*(y+1))
-        signal=self.canvas.create_line(plot,fill=color,smooth=1,width=2)
-        return signal
+    def animate(self,signal,deletedSignal="X",color='red'):
+        signalValue=None
+        self.signal=signal
+        self.deletedSignal=deletedSignal
+        self.color=color
+        if signal and self.anim==1:
+            width,height=int(self.width-12),int(self.height)
+            signal = self.signal.get_signal()
+            if signal!=None :
+                self.canvas.delete(self.signals_id[deletedSignal])
+            if self.signalPos < 500-1:
+                plot=[(signal[self.signalPos][0]*width+10, height/2.0*(signal[self.signalPos][1]+1)),
+                        (signal[self.signalPos+1][0]*width+10, height/2.0*(signal[self.signalPos+1][1]+1))]
+                self.canvas.create_line(plot,fill=color,smooth=1,width=2)
+                signalValue=self.canvas.after(200,lambda:self.animate(self.signal,self.deletedSignal,self.color))
+                self.signalPos+=1
+            else:
+                self.signalPos=0
+                self.anim=0
+        return signalValue
 
     def deleteSignal(self,choice="Y"):
         self.update()

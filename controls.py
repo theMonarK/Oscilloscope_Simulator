@@ -80,7 +80,6 @@ class Controller(Observer):
         self.subjects.generate_XYCurve()
     def update_offset(self,event):
         if self.isOffsetVar.get():
-            print(self.isOffsetVar.get())
             print("update_offset(self,event)",self.isOffsetVar.get())
             self.subjectSig.set_offset(self.offset.get()/self.voltVar.get())
             self.subjects.generate_XYCurve()
